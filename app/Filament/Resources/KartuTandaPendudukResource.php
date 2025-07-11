@@ -15,6 +15,9 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 use Filament\Forms\Components\Wizard;
 
+use emmanpbarrameda\FilamentTakePictureField\Forms\Components\TakePicture;
+use Illuminate\Support\Facades\Auth;
+
 class KartuTandaPendudukResource extends Resource
 {
     protected static ?string $model = KartuTandaPenduduk::class;
@@ -29,6 +32,7 @@ class KartuTandaPendudukResource extends Resource
                     Wizard\Step::make('Data Pribadi')
                         ->schema([
                             Forms\Components\TextInput::make('nik')
+                                ->visible(Auth::user()->hasRole('super_admin'))
                                 ->label('NIK')
                                 ->maxLength(16),
                             Forms\Components\TextInput::make('nama')
@@ -101,7 +105,10 @@ class KartuTandaPendudukResource extends Resource
                             Forms\Components\TextInput::make('rt_rw')
                                 ->label('RT/RW')
                                 ->maxLength(7)
+                                ->numeric()
                                 ->placeholder('001/002')
+                                ->mask('999/999')
+                                ->regex('/^\d{3}\/\d{3}$/')
                                 ->required(),
                             Forms\Components\TextInput::make('kelurahan_desa')
                                 ->label('Kelurahan/Desa')
@@ -135,7 +142,7 @@ class KartuTandaPendudukResource extends Resource
                             Forms\Components\FileUpload::make('foto')
                                 ->label('Foto')
                                 ->image()
-                                ->directory('ktp-photos')
+                                //->directory('ktp-photos')
                                 ->maxSize(2048),
                             Forms\Components\DatePicker::make('tanggal_disahkan')
                                 ->label('Tanggal Disahkan')
