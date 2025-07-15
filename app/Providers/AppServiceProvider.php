@@ -10,6 +10,7 @@ use Illuminate\Support\ServiceProvider;
 use Opcodes\LogViewer\Facades\LogViewer;
 use App\Models\Blog\Post;
 use App\Observers\PostObserver;
+use Illuminate\Database\Eloquent\Model;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -26,6 +27,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Model::unguard();
         Post::observe(PostObserver::class);
 
         Table::configureUsing(function (Table $table): void {

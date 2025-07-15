@@ -6,6 +6,7 @@ use App\Filament\Resources\KartuTandaPendudukResource;
 use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\KartuTandaPenduduk;
 
 class CreateKartuTandaPenduduk extends CreateRecord
 {
@@ -13,10 +14,19 @@ class CreateKartuTandaPenduduk extends CreateRecord
 
     protected function handleRecordCreation(array $data): Model
     {
-        // Generate nik
-            if (empty($data['nik'])) {
-                $data['nik'] = (string) '3322160101970001'; // Example NIK, replace with your logic
-            }
-        return static::getModel()::create($data);
+
+    $prefix = '332216' . \Carbon\Carbon::parse($data['tanggal_lahir'])->format('dmy');
+
+    // Explicitly query the model
+    $lastNik = KartuTandaPenduduk::where('nik', 'like', $prefix . '%')
+        ->orderBy('nik', 'desc')
+        ->value('nik');
+
+    $lastNumber = $lastNik ? (int) substr($lastNik, -4) : 0;
+    $newNumber  = str_pad($lastNumber + 1, 4, '0', STR_PAD_LEFT);
+
+    $data['nik'] = $data['nik'] ?: $prefix . $newNumber;
+
+    return KartuTandaPenduduk::create($data);
     }
 }

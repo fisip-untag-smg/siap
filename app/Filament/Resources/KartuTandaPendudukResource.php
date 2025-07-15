@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Forms\Components\Wizard;
 
 use emmanpbarrameda\FilamentTakePictureField\Forms\Components\TakePicture;
+use Filament\Tables\Enums\ActionsPosition;
 use Illuminate\Support\Facades\Auth;
 
 class KartuTandaPendudukResource extends Resource
@@ -32,7 +33,8 @@ class KartuTandaPendudukResource extends Resource
                     Wizard\Step::make('Data Pribadi')
                         ->schema([
                             Forms\Components\TextInput::make('nik')
-                                ->visible(Auth::user()->hasRole('super_admin'))
+                                //->visible(Auth::user()->hasRole('super_admin'))
+                                ->dehydrated(true)
                                 ->label('NIK')
                                 ->maxLength(16),
                             Forms\Components\TextInput::make('nama')
@@ -104,8 +106,8 @@ class KartuTandaPendudukResource extends Resource
                                 ->rows(3),
                             Forms\Components\TextInput::make('rt_rw')
                                 ->label('RT/RW')
-                                ->maxLength(7)
-                                ->numeric()
+                                ->maxLength(10)
+                                //->numeric()
                                 ->placeholder('001/002')
                                 ->mask('999/999')
                                 ->regex('/^\d{3}\/\d{3}$/')
@@ -139,9 +141,22 @@ class KartuTandaPendudukResource extends Resource
                                 ->label('Berlaku Hingga')
                                 ->maxLength(255)
                                 ->default('SEUMUR HIDUP'),
+                            TakePicture::make('photo_camera')
+                                ->label('Camera Test')
+                                ->disk('public')
+                                //->directory('uploads/services/payment_receipts_proof')
+                                ->visibility('public')
+                                ->useModal(true)
+                                ->showCameraSelector(true)
+                                ->aspect('16:9')
+                                ->imageQuality(80)
+                                //->multiple(false) // ✅ important: force single file
+                                ->dehydrated(true) // ✅ ensure it save as string
+                                ->shouldDeleteOnEdit(false),
                             Forms\Components\FileUpload::make('foto')
                                 ->label('Foto')
                                 ->image()
+                                ->dehydrated(false)
                                 //->directory('ktp-photos')
                                 ->maxSize(2048),
                             Forms\Components\DatePicker::make('tanggal_disahkan')
@@ -214,7 +229,7 @@ class KartuTandaPendudukResource extends Resource
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
-            ])
+            ], position: ActionsPosition::BeforeColumns)
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),

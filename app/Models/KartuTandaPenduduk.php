@@ -17,4 +17,8 @@ class KartuTandaPenduduk extends Model
 
     // Primary key is a string (UUID)
     protected $keyType = 'string';
+
+    protected $casts = [
+    'photo_camera' => 'array',
+];
 }
