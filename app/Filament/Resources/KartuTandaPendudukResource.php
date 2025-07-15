@@ -49,6 +49,8 @@ class KartuTandaPendudukResource extends Resource
                                 ->required(),
                             Forms\Components\DatePicker::make('tanggal_lahir')
                                 ->label('Tanggal Lahir')
+                                ->format('Y-m-d')
+                                ->displayFormat('d F Y')
                                 ->required(),
                             Forms\Components\Select::make('jenis_kelamin')
                                 ->label('Jenis Kelamin')
@@ -161,6 +163,8 @@ class KartuTandaPendudukResource extends Resource
                                 ->maxSize(2048),
                             Forms\Components\DatePicker::make('tanggal_disahkan')
                                 ->label('Tanggal Disahkan')
+                                ->format('Y-m-d')
+                                ->displayFormat('d F Y')
                                 ->default(now()),
                         ])
                         ->columns(2),
@@ -175,6 +179,7 @@ class KartuTandaPendudukResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('id')
                     ->label('ID')
+                    ->visible(Auth::user()->hasRole('super_admin'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('nik')
                     ->searchable(),
@@ -183,7 +188,7 @@ class KartuTandaPendudukResource extends Resource
                 Tables\Columns\TextColumn::make('tempat_lahir')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('tanggal_lahir')
-                    ->date()
+                    ->date('j F Y')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('nama')
                     ->searchable(),
@@ -209,10 +214,10 @@ class KartuTandaPendudukResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('berlaku_hingga')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('foto')
+                Tables\Columns\ImageColumn::make('photo_camera')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('tanggal_disahkan')
-                    ->date()
+                    ->date('j F Y')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
