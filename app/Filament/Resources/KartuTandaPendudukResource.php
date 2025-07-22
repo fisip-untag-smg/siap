@@ -19,6 +19,8 @@ use emmanpbarrameda\FilamentTakePictureField\Forms\Components\TakePicture;
 use Filament\Tables\Enums\ActionsPosition;
 use Illuminate\Support\Facades\Auth;
 
+use Filament\Support\Enums\Alignment;
+
 class KartuTandaPendudukResource extends Resource
 {
     protected static ?string $model = KartuTandaPenduduk::class;
@@ -195,6 +197,7 @@ class KartuTandaPendudukResource extends Resource
                 Tables\Columns\TextColumn::make('jenis_kelamin')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('golongan_darah')
+                    ->alignment(Alignment::Center)
                     ->searchable(),
                 Tables\Columns\TextColumn::make('alamat')
                     ->searchable(),
@@ -207,10 +210,12 @@ class KartuTandaPendudukResource extends Resource
                 Tables\Columns\TextColumn::make('agama')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('status_perkawinan')
+                    ->alignment(Alignment::Center)
                     ->searchable(),
                 Tables\Columns\TextColumn::make('pekerjaan')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('kewarganegaraan')
+                    ->alignment(Alignment::Center)
                     ->searchable(),
                 Tables\Columns\TextColumn::make('berlaku_hingga')
                     ->searchable(),
@@ -234,6 +239,12 @@ class KartuTandaPendudukResource extends Resource
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\Action::make('lihat_ktp')
+                    ->label('Lihat KTP')
+                    ->icon('heroicon-o-eye')
+                    ->url(fn (KartuTandaPenduduk $record): string => route('ktp.view', ['kartuTandaPenduduk' => $record->id]))
+                    ->openUrlInNewTab()
+                    ->color('primary'),
             ], position: ActionsPosition::BeforeColumns)
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

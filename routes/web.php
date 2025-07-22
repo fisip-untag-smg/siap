@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LihatKartuTandaPendudukController;
 use App\Livewire\SuperDuper\BlogList;
 use App\Livewire\SuperDuper\BlogDetails;
 use App\Livewire\SuperDuper\Pages\ContactUs;
@@ -58,4 +59,7 @@ Route::get('impersonate/leave', function() {
         session()->pull('impersonate.back_to')
     );
 })->name('impersonate.leave')->middleware('web');
+
+//Route::get('/lihat-ktp', [LihatKartuTandaPendudukController::class, 'lihatKtpHtml'])->name('ktp.view');
+Route::get('/lihat-ktp/{kartuTandaPenduduk}', [LihatKartuTandaPendudukController::class, 'lihatKtpHtml'])->name('ktp.view');
 
