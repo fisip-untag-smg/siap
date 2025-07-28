@@ -29,28 +29,36 @@ class IjinUsahaResource extends Resource
                     Wizard\Step::make('Data Pemohon')
                     ->schema([
                 Forms\Components\TextInput::make('nama')
+                    ->placeholder('Nama Lengkap')
                     ->maxLength(255),
                 Forms\Components\TextInput::make('nik')
+                ->label('NIK')
+                    ->placeholder('diisi dengan NPM')
                     ->maxLength(255),
                 Forms\Components\TextInput::make('email')
                     ->email()
+                    ->placeholder('jajal@jajal.com')
                     ->maxLength(255),
                 Forms\Components\TextInput::make('no_hp')
+                    ->label('Nomor HP')
+                    ->placeholder('081223456789')
                     ->maxLength(255),
-                Forms\Components\TextInput::make('alamat')
+                Forms\Components\TextArea::make('alamat')
                     ->maxLength(255),
                     ])->columns(2),
                 Wizard\Step::make('Informasi Usaha')
                     ->schema([
                 Forms\Components\TextInput::make('nama_usaha')
+                    ->placeholder('Mencari Cinta Sejati')
                     ->maxLength(255),
                 Forms\Components\TextInput::make('jenis_usaha')
+                    ->placeholder('PT/CV/UD')
                     ->maxLength(255),
-                Forms\Components\TextInput::make('alamat_usaha')
+                Forms\Components\TextArea::make('alamat_usaha')
                     ->maxLength(255),
                 Forms\Components\TextInput::make('modal_usaha')
                     ->maxLength(255),
-                Forms\Components\TextInput::make('deskripsi')
+                Forms\Components\TextArea::make('deskripsi')
                     ->maxLength(255),
                     ])->columns(2),
                 Wizard\Step::make('Dokumen Pendukung')
