@@ -21,6 +21,8 @@ use Illuminate\Support\Facades\Auth;
 
 use Filament\Support\Enums\Alignment;
 
+use Saade\FilamentAutograph\Forms\Components\SignaturePad;
+
 class KartuTandaPendudukResource extends Resource
 {
     protected static ?string $model = KartuTandaPenduduk::class;
@@ -157,12 +159,24 @@ class KartuTandaPendudukResource extends Resource
                                 //->multiple(false) // ✅ important: force single file
                                 ->dehydrated(true) // ✅ ensure it save as string
                                 ->shouldDeleteOnEdit(false),
-                            Forms\Components\FileUpload::make('foto')
+                            SignaturePad::make('foto')
                                 ->label('Foto')
-                                ->image()
-                                ->dehydrated(false)
-                                //->directory('ktp-photos')
-                                ->maxSize(2048),
+                                ->dotSize(2.0)
+                                ->lineMinWidth(0.5)
+                                ->lineMaxWidth(2.5)
+                                ->throttle(16)
+                                ->minDistance(2)
+                                ->velocityFilterWeight(0.7)
+                                ->backgroundColor('rgba(0,0,0,0)')  // Background color on light mode
+                                ->backgroundColorOnDark('#f0a')     // Background color on dark mode (defaults to backgroundColor)
+                                ->exportBackgroundColor('#f00')     // Background color on export (defaults to backgroundColor)
+                                ->penColor('#000')                  // Pen color on light mode
+                                ->penColorOnDark('#fff')            // Pen color on dark mode (defaults to penColor)
+                                ->exportPenColor('#0f0')            // Pen color on export (defaults to penColor)
+                                ->clearable(true)
+                                ->downloadable(false)
+                                ->undoable(true)
+                                ->confirmable(true),
                             Forms\Components\DatePicker::make('tanggal_disahkan')
                                 ->label('Tanggal Disahkan')
                                 ->format('Y-m-d')

@@ -55,14 +55,10 @@ class IjinUsahaResource extends Resource
                     ])->columns(2),
                 Wizard\Step::make('Dokumen Pendukung')
                     ->schema([
-                Forms\Components\TextInput::make('ktp')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('npwp')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('akte_pendirian')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('surat_domisili_usaha')
-                    ->maxLength(255),
+                Forms\Components\FileUpload::make('ktp'),
+                Forms\Components\FileUpload::make('npwp'),
+                Forms\Components\FileUpload::make('akte_pendirian'),
+                Forms\Components\FileUpload::make('surat_domisili_usaha'),
                 ])->columns(2),
                 ])->skippable(true)->columnSpanFull()
             ]);
